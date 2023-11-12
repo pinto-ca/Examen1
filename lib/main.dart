@@ -1,6 +1,7 @@
 import 'package:exam_carlos/main_pages/menu.dart';
 import 'package:exam_carlos/main_pages/moneda.dart';
 import 'package:exam_carlos/main_pages/noticias.dart';
+import 'package:exam_carlos/main_pages/tareas.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const MenuPage(),
         '/news': (context) => const NewsPage(),
-        '/currency': (context) => const CurrencyPage()
+        '/currency': (context) => const CurrencyPage(),
+        '/tasks': (context) => TaskListPage(),
       },
     );
   }
