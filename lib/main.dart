@@ -2,14 +2,19 @@ import 'package:exam_carlos/pages/menu.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MenuPage();
+    return MaterialApp(
+      title: 'App CEUTEC',
+      theme: ThemeData(primarySwatch: Colors.red),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => MenuPage(),
+      },
+    );
   }
 }
