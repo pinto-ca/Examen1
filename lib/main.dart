@@ -1,4 +1,5 @@
-import 'package:exam_carlos/pages/menu.dart';
+import 'package:exam_carlos/main_pages/menu.dart';
+import 'package:exam_carlos/main_pages/noticias.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +14,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.red),
       initialRoute: '/',
       routes: {
-        '/': (context) => MenuPage(),
+        '/': (context) => const MenuPage(),
+        '/news': (context) => const NewsPage(),
       },
     );
   }

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class MenuPage extends StatelessWidget {
+  const MenuPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('App CEUTEC'),
+        title: const Text('App CEUTEC'),
       ),
       drawer: Drawer(
         child: ListView(
@@ -19,29 +21,29 @@ class MenuPage extends StatelessWidget {
               ),
             ),
             ListTile(
-              title: Text('Noticias'),
-              leading: Icon(Icons.newspaper),
+              title: const Text('Noticias'),
+              leading: const Icon(Icons.newspaper),
               onTap: () {
                 Navigator.pushNamed(context, '/news');
               },
             ),
             ListTile(
-              title: Text('Cambio de monedas'),
-              leading: Icon(Icons.currency_exchange),
+              title: const Text('Cambio de monedas'),
+              leading: const Icon(Icons.currency_exchange),
               onTap: () {
                 Navigator.pushNamed(context, '/currency');
               },
             ),
             ListTile(
-              title: Text('Lista de tareas'),
-              leading: Icon(Icons.task_sharp),
+              title: const Text('Lista de tareas'),
+              leading: const Icon(Icons.task_sharp),
               onTap: () {
                 Navigator.pushNamed(context, '/tasks');
               },
             ),
             ListTile(
-              title: Text('Podcast'),
-              leading: Icon(Icons.podcasts),
+              title: const Text('Podcast'),
+              leading: const Icon(Icons.podcasts),
               onTap: () {
                 Navigator.pushNamed(context, '/podcast');
               },
