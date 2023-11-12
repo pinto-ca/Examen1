@@ -8,97 +8,143 @@ class CurrencyPage extends StatefulWidget {
 }
 
 class _CurrencyPageState extends State<CurrencyPage> {
-  String _moneda = 'Euro';
-  double _precioCompraEuro = 25.2993;
-  double _precioVentaEuro = 28.4024;
-  double _precioCompraDolar = 24.6822;
-  double _precioVentaDolar = 24.8056;
-  TextEditingController _cantidadController = TextEditingController();
-  double _resultado = 0.0;
+  String _monedaSeleccionada = 'Dólar';
+  TextEditingController _controller = TextEditingController();
+  String _resultado = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cambio de Monedas'),
+        title: Text('Cambio de Moneda'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            DropdownButton<String>(
-              value: _moneda,
-              items: ['Euro', 'Dolar'].map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  _moneda = newValue ?? 'Euro';
-                  _actualizarPrecios();
-                });
-              },
+            Text(
+              'Seleccionar moneda:',
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             SizedBox(height: 16.0),
-            Text('Precios de Compra/Venta:'),
-            Text('Euro - Compra: $_precioCompraEuro, Venta: $_precioVentaEuro'),
-            Text(
-                'Dolar - Compra: $_precioCompraDolar, Venta: $_precioVentaDolar'),
-            SizedBox(height: 16.0),
-            Container(
-              width: double.infinity,
-              height: 150.0,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _cantidadController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Cantidad a cambiar',
-                  ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    _cambiarMoneda('Dólar');
+                  },
+                  child: Text('Dólar'),
                 ),
+                ElevatedButton(
+                  onPressed: () {
+                    _cambiarMoneda('Euro');
+                  },
+                  child: Text('Euro'),
+                ),
+              ],
+            ),
+            SizedBox(height: 16.0),
+            _buildPrecio('Compra', _calcularValorCompra()),
+            _buildPrecio('Venta', _calcularValorVenta()),
+            SizedBox(height: 16.0),
+            TextField(
+              controller: _controller,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: 'Cantidad a convertir',
               ),
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                setState(() {
-                  _calcularCambio();
-                });
+                _calcularConversion();
               },
-              child: Text('Calcular Cambio'),
+              child: Text('Calcular'),
             ),
             SizedBox(height: 16.0),
-            Text('Resultado: $_resultado'),
+            Text(
+              'LPS. $_resultado',
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  void _actualizarPrecios() {
-    if (_moneda == 'Euro') {
-      _precioCompraEuro = 25.2993;
-      _precioVentaEuro = 28.4024;
-    } else if (_moneda == 'Dolar') {
-      _precioCompraDolar = 24.6822;
-      _precioVentaDolar = 24.8056;
-    }
+  void _cambiarMoneda(String nuevaMoneda) {
+    setState(() {
+      _monedaSeleccionada = nuevaMoneda;
+      _controller.clear();
+      _resultado = '';
+    });
   }
 
-  void _calcularCambio() {
-    double cantidad = double.tryParse(_cantidadController.text) ?? 0.0;
+  Widget _buildPrecio(String tipo, String valor) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '$tipo:',
+          style: TextStyle(
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 8.0),
+        Text(
+          'L. $valor',
+          style: TextStyle(
+            fontSize: 16.0,
+            color: Colors.blue,
+            decoration: TextDecoration.underline,
+          ),
+        ),
+        SizedBox(height: 16.0),
+      ],
+    );
+  }
 
-    if (_moneda == 'Euro') {
-      _resultado = cantidad * _precioCompraEuro;
-    } else if (_moneda == 'Dolar') {
-      _resultado = cantidad * _precioCompraDolar;
+  String _calcularValorCompra() {
+    if (_monedaSeleccionada == 'Dólar') {
+      return '24.6834';
+    } else if (_monedaSeleccionada == 'Euro') {
+      return '27.50';
     }
+    return '';
+  }
+
+  String _calcularValorVenta() {
+    if (_monedaSeleccionada == 'Dólar') {
+      return '24.8068';
+    } else if (_monedaSeleccionada == 'Euro') {
+      return '27.80';
+    }
+    return '';
+  }
+
+  void _calcularConversion() {
+    double cantidad = double.tryParse(_controller.text) ?? 0.0;
+    double tasa;
+
+    if (_monedaSeleccionada == 'Dólar') {
+      tasa = cantidad * double.parse(_calcularValorVenta());
+    } else if (_monedaSeleccionada == 'Euro') {
+      tasa = cantidad * double.parse(_calcularValorVenta());
+    } else {
+      tasa = 0.0;
+    }
+
+    setState(() {
+      _resultado = tasa.toStringAsFixed(2);
+    });
   }
 }

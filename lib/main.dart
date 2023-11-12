@@ -1,6 +1,7 @@
 import 'package:exam_carlos/main_pages/menu.dart';
 import 'package:exam_carlos/main_pages/moneda.dart';
 import 'package:exam_carlos/main_pages/noticias.dart';
+import 'package:exam_carlos/main_pages/podcast.dart';
 import 'package:exam_carlos/main_pages/tareas.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         '/news': (context) => const NewsPage(),
         '/currency': (context) => const CurrencyPage(),
         '/tasks': (context) => TaskListPage(),
+        '/podcast': (context) => const PodcastPage(),
       },
     );
   }
